@@ -1,0 +1,79 @@
+h1 {
+	font-size: 64px;
+	text-align: center;
+}
+
+body {
+	background-color: whiteSmoke;
+	font-family: 'Helvetica Neue';
+}
+
+div.four-stuff {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: hidden;
+	
+}
+
+div.four-stuff a{
+	background-color: #fff;
+	border: 2px solid black;
+	display: inline;
+	float: left;
+	padding: 10px;
+	margin: 5px;
+	text-decoration: none;
+	color: black;
+	
+
+  
+	transition: background-color 500ms linear;
+	-webkit-transition: background-color 500ms linear;
+	
+	
+	
+}
+
+div.four-stuff a:hover{
+	background-color: #0064CD;
+	color: whiteSmoke;
+	border-color: #0064CD;
+	
+}
+
+div.four-stuff a img{
+display: none;	
+}
+
+
+.foursquare-footer {
+	margin:0px auto;
+	width: 800px;
+	text-align: center;
+}
+.namefooter {
+	margin:0 auto;
+	text-align: center;
+}
+
+.btn {
+  color: black;
+  background-color: white;
+  font-family: 'Helvetica Neue';
+  font-size: 26px;
+  padding: 15px 30px;
+  border: 2px solid black;
+  text-decoration: none;
+  text-align: center;
+  margin: 100px auto;
+  display: block;
+  width: 200px;
+	transition: background-color 500ms linear;
+	-webkit-transition: background-color 500ms linear;
+}
+.btn:hover{
+	background-color: #0064CD;
+	color: whiteSmoke;
+	border-color: #0064CD;
+}

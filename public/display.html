@@ -1,0 +1,102 @@
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+ <LINK href="stylesheets/base.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<script>
+	
+	$(document).ready(function() {
+	    var pathname = window.location.hash;
+		var tokenindex = pathname.indexOf("=");
+		var token = pathname.slice(tokenindex+1);
+		console.log(token);
+		$("<input type='hidden' class='accesstoken' />").val(token).appendTo($("body"));
+	
+	
+	function venueSorter (a, b){
+		if (a.beenHere > b.beenHere){
+			return -1;
+		}
+		else if (a.beenHere == b.beenHere){
+			return 0;
+		}
+		else{
+			return 1;
+		}
+	}
+	//oauth handshake
+	//lets pass in timestamp params. Time slider would be great. Barring that, how about just past 3 months?
+	
+													$.getJSON("https://api.foursquare.com/v2/users/self/venuehistory?oauth_token=" + token, 	function(response) { // makes the API call and gets the check in history
+		//console.log(response.response.venues.items)
+		var rawplaces = response.response.venues.items; //gets the objects of the places from the json response
+		var sortedplaces = rawplaces.sort(venueSorter); //sorts them using the function above to put them in order
+		//console.log(sortedplaces)
+		var topsortedplaces = sortedplaces.slice(0,10) //keeps the top ten items
+		//console.log(topsortedplaces)
+		
+		var toptennames = topsortedplaces.map(function(place){
+		return place.venue.name;	 //for each item, grab it's name
+		});
+		//console.log(toptennames); //print out the top ten names
+		
+		var biggestcheckin = topsortedplaces[0].beenHere;
+		
+		
+		$.each(topsortedplaces,function(index, place){ //does something with each item
+			//console.log(place.beenHere); // print how many times been to each
+			
+			var sizer = sizedeterminer(biggestcheckin);
+			function sizedeterminer(checkincount){
+				if (checkincount < 20){
+					return checkincount*2;
+				}
+				else if(checkincount > 60){
+					return checkincount/2;
+				}
+				
+				else{
+					return checkincount;
+				}
+			}
+			
+		
+			var $placediv = $("<a>").addClass(String(place.beenHere)).text(place.venue.name); //create a div with the name of the venue and name the div with the numver of times been there
+			
+			$placediv.css("font-size",(sizer/10)+place.beenHere); //makes the css font-size the number of times they've been there
+			$placediv.css("padding", place.beenHere*0.5) // makes the padding hte numver of times they've been there
+			$placediv.attr("href", "https://foursquare.com/v/"+place.venue.id) //makes each one a link by appending hte venue id 
+			
+			$.getJSON("https://api.foursquare.com/v2/venues/" + place.venue.id + "/photos?group=checkin&oauth_token="  + token, 	function(photos){ //gets the photos for each venue
+			console.log(photos);
+				if (photos.response.photos.count > 0){ //if there is more than one photo
+					var $placeimg = $("<img>").attr("src", photos.response.photos.items[0].url); //add img tag with photo
+					$placediv.append($placeimg);
+				}
+		});
+			
+			$(".four-stuff").append($placediv); //add it to the fourstuff div
+		
+		
+		})
+		
+		
+		
+			
+		
+		});
+		});
+	</script>
+	<h1>My Spots</h1>
+	<div class="four-stuff">
+		
+	</div>
+	<div class ="foursquare-footer">
+		<img src ="https://playfoursquare.s3.amazonaws.com/press/logo/poweredByFoursquare_gray.png">
+		</div>
+	<div class = "namefooter">
+		<p>by <a href="http://www.twitter.com/adamfe"> Adam Feldman</a></p>
+		</div>
+</body>
+</html>
