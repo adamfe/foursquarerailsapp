@@ -54,7 +54,7 @@
 			var $placediv = $("<a>").addClass(String(place.beenHere)).text(place.venue.name); //create a div with the name of the venue and name the div with the numver of times been there
 			
 			$placediv.css("font-size", (place.beenHere/biggestcheckin)*40+20); //makes the css font-size the number of times they've been there
-			$placediv.css("padding", place.beenHere*0.5) // makes the padding hte numver of times they've been there
+			$placediv.css("padding", place.beenHere*0.5 + 2) // makes the padding hte numver of times they've been there
 			$placediv.attr("href", "https://foursquare.com/v/"+place.venue.id) //makes each one a link by appending hte venue id 
 			
 			$.getJSON("https://api.foursquare.com/v2/venues/" + place.venue.id + "/photos?group=checkin&oauth_token="  + token, 	function(photos){ //gets the photos for each venue
