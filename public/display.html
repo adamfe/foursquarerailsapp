@@ -50,22 +50,37 @@
 		
 			var sizer = sizedeterminer(biggestcheckin);
 			function sizedeterminer(checkincount){
-				if (checkincount < 20){
-					return checkincount*2;
+				if ((checkincount/biggestcheckin)<=0.25){
+					return 15;
 				}
-				else if(checkincount > 60){
-					return checkincount/2;
+				else if((checkincount/biggestcheckin)<=0.5) && (checkincount/biggestcheckin)>0.25){
+					return 25;
+				}
+				else if((checkincount/biggestcheckin)<=0.65) && (checkincount/biggestcheckin)>0.5){
+					return 30;
+				}
+				else if((checkincount/biggestcheckin)<=0.8) && (checkincount/biggestcheckin)>0.65){
+					return 40;
+				}
+				else if((checkincount/biggestcheckin)<=0.9) && (checkincount/biggestcheckin)>0.8){
+						return 50;
+					}
+				else if	((checkincount/biggestcheckin)<1) && (checkincount/biggestcheckin)>0.9){
+							return 55;
+						}
+				else if((checkincount/biggestcheckin)==1){
+					return 60;
 				}
 				
 				else{
-					return checkincount;
+					return 5;
 				}
 			}
 			
 		
 			var $placediv = $("<a>").addClass(String(place.beenHere)).text(place.venue.name); //create a div with the name of the venue and name the div with the numver of times been there
 			
-			$placediv.css("font-size",60*(place.beenHere/biggestcheckin)); //makes the css font-size the number of times they've been there
+			$placediv.css("font-size", sizer); //makes the css font-size the number of times they've been there
 			$placediv.css("padding", place.beenHere*0.5) // makes the padding hte numver of times they've been there
 			$placediv.attr("href", "https://foursquare.com/v/"+place.venue.id) //makes each one a link by appending hte venue id 
 			
