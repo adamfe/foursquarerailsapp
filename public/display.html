@@ -46,25 +46,14 @@
 		
 		
 		$.each(topsortedplaces,function(index, place){ //does something with each item
-			//console.log(place.beenHere); // print how many times been to each
+			console.log(place.beenHere); // print how many times been to each
 		
-			var sizer = sizedeterminer(biggestcheckin);
-			function sizedeterminer(checkincount){
-				switch (checkincount){
-					case (this.checkincount>0):
-					return 20;
-					break;
-					
-					default:
-					return 60;
-				}
-		
-			}
+	
 			
 		
 			var $placediv = $("<a>").addClass(String(place.beenHere)).text(place.venue.name); //create a div with the name of the venue and name the div with the numver of times been there
 			
-			$placediv.css("font-size", sizer); //makes the css font-size the number of times they've been there
+			$placediv.css("font-size", (place.beenHere/biggestcheckin)*40+20); //makes the css font-size the number of times they've been there
 			$placediv.css("padding", place.beenHere*0.5) // makes the padding hte numver of times they've been there
 			$placediv.attr("href", "https://foursquare.com/v/"+place.venue.id) //makes each one a link by appending hte venue id 
 			
