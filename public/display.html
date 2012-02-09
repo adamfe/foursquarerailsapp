@@ -50,31 +50,15 @@
 		
 			var sizer = sizedeterminer(biggestcheckin);
 			function sizedeterminer(checkincount){
-				if ((checkincount/biggestcheckin)<=0.25){
-					return 15;
-				}
-				else if(((checkincount/biggestcheckin)<=0.5) && ((checkincount/biggestcheckin)>0.25)){
-					return 25;
-				}
-				else if(((checkincount/biggestcheckin)<=0.65) && ((checkincount/biggestcheckin)>0.5)){
-					return 30;
-				}
-				else if(((checkincount/biggestcheckin)<=0.8) && ((checkincount/biggestcheckin)>0.65)){
-					return 40;
-				}
-				else if(((checkincount/biggestcheckin)<=0.9) && ((checkincount/biggestcheckin)>0.8)){
-						return 50;
-					}
-				else if	(((checkincount/biggestcheckin)<1) && ((checkincount/biggestcheckin)>0.9)){
-							return 55;
-						}
-				else if((checkincount/biggestcheckin)==1){
+				switch (checkincount){
+					case (checkincount>0):
+					return 20;
+					break;
+					
+					default:
 					return 60;
 				}
-				
-				else{
-					return 5;
-				}
+		
 			}
 			
 		
