@@ -24,55 +24,75 @@
 	    var pathname = window.location.hash;
 		var tokenindex = pathname.indexOf("=");
 		var token = pathname.slice(tokenindex+1);
-		console.log(token);
+		//console.log(token);
 		$("<input type='hidden' class='accesstoken' />").val(token).appendTo($("body"));
 	
 	
 	function venueSorter (a, b){
-		if (a.beenHere > b.beenHere){
+		if (a.done.count > b.done.count){
 			return -1;
 		}
-		else if (a.beenHere == b.beenHere){
+		else if (a.done.count == b.done.count){
 			return 0;
 		}
 		else{
 			return 1;
 		}
-	}
-	//oauth handshake
-	//lets pass in timestamp params. Time slider would be great. Barring that, how about just past 3 months?
-	
-													$.getJSON("https://api.foursquare.com/v2/users/self/venuehistory?oauth_token=" + token, 	function(response) { // makes the API call and gets the check in history
-		//console.log(response.response.venues.items)
-		var rawplaces = response.response.venues.items; //gets the objects of the places from the json response
-		var sortedplaces = rawplaces.sort(venueSorter); //sorts them using the function above to put them in order
+	}	
+
+		
+	$(function() {										
+												
+												
+$(".searchbox").submit(function(e){
+	e.preventDefault();
+	var brand = $(".searchcontents").val();
+	$(".four-stuff").empty();
+	console.log(brand);
+	$("h1").replaceWith('<h1>' + brand + '\'s favorite places</h1>');												
+												
+$.getJSON("https://api.foursquare.com/v2/users/search?name="+ brand + "\&oauth_token=" + token, 	function(response) {
+		console.log(response.response)
+		var userid = response.response.results[0].id; //gets the objects of the places from the json response
+		console.log(userid);
+
+		
+		$.getJSON("https://api.foursquare.com/v2/users/" + userid + "/tips?sort=popular&oauth_token=" + token, function(venueresponse){
+				
+				var rawtips = venueresponse.response.tips.items;
+				//console.log(rawtips)
+		
+		
+		var sortedplaces = rawtips.sort(venueSorter); //sorts them using the function above to put them in order
 		//console.log(sortedplaces)
 		var topsortedplaces = sortedplaces.slice(0,10) //keeps the top ten items
-		//console.log(topsortedplaces)
+		console.log(topsortedplaces)
 		
 		var toptennames = topsortedplaces.map(function(place){
 		return place.venue.name;	 //for each item, grab it's name
 		});
 		//console.log(toptennames); //print out the top ten names
 		
-		var biggestcheckin = topsortedplaces[0].beenHere;
+		var biggestcheckin = topsortedplaces[0].done.count;
 		console.log(biggestcheckin);
 		
 		
 		$.each(topsortedplaces,function(index, place){ //does something with each item
-			console.log(place.beenHere); // print how many times been to each
+			//console.log(place); // print how many times been to each
 		
 	
 			
 		
-			var $placediv = $("<a>").addClass(String(place.beenHere)).text(place.venue.name); //create a div with the name of the venue and name the div with the numver of times been there
+			var $placediv = $("<a>").addClass(String(place.done.count)).text(place.venue.name); //create a div with the name of the venue and name the div with the numver of times been there
 			
-			$placediv.css("font-size", (place.beenHere/biggestcheckin)*40+20); //makes the css font-size the number of times they've been there
-			$placediv.css("padding", place.beenHere*0.5 + 5) // makes the padding hte numver of times they've been there
+			$placediv.css("font-size", (place.done.count/biggestcheckin)*40+10); //makes the css font-size the number of times they've been there
+			console.log(place.done.count)
+			console.log(biggestcheckin)
+			$placediv.css("padding",  (place.done.count/biggestcheckin)*10 + 5) // makes the padding hte numver of times they've been there
 			$placediv.attr("href", "https://foursquare.com/v/"+place.venue.id) //makes each one a link by appending hte venue id 
 			
 			$.getJSON("https://api.foursquare.com/v2/venues/" + place.venue.id + "/photos?group=checkin&oauth_token="  + token, 	function(photos){ //gets the photos for each venue
-			console.log(photos);
+			//console.log(photos);
 				if (photos.response.photos.count > 0){ //if there is more than one photo
 					var $placeimg = $("<img>").attr("src", photos.response.photos.items[0].url); //add img tag with photo
 					$placediv.append($placeimg);
@@ -82,16 +102,24 @@
 			$(".four-stuff").append($placediv); //add it to the fourstuff div
 		
 		
+		
 		})
 		
 		
-		
+		})
 			
-		
+		})
 		});
 		});
+	})
 	</script>
-	<h1>My Spots</h1>
+	<div id="brandname"><h1 >Top Spots</h1></div>
+		<form class="searchbox">
+		<input type="text" class="searchcontents" placeholder="Espn, Eater, Bravo..." />
+		<input type="submit" value="Search" class="searchbtn" />
+		</form>
+		
+
 	<div class="four-stuff">
 		
 	</div>

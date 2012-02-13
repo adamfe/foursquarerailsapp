@@ -1,14 +1,31 @@
 h1 {
-	margin-top:50px;
+	margin-top:20px;
 	font-size: 64px;
 	text-align: center;
 	color:#7c7e81;
+	margin-bottom:20px;
 }
 
 body {
 	background-color: whiteSmoke;
 	font-family: 'Helvetica Neue';
 }
+
+div.instructions{
+	margin:0 auto;
+	text-align: center;
+	padding: 10px;
+	padding-bottom: 20px;
+	color: #7c7e81
+}
+
+.searchbutton {
+	width: 800px;
+	margin-left: 500px;
+	margin-right: auto;
+	overflow: hidden;
+}
+
 
 div.four-stuff {
 	width: 800px;
@@ -72,7 +89,7 @@ display: none;
   border-radius: 10px;
   text-decoration: none;
   text-align: center;
-  margin: 100px auto;
+  margin: 0 auto;
   display: block;
   width: 200px;
 	transition: background-color 500ms linear;
@@ -85,4 +102,50 @@ display: none;
 }
 .btn:active{
 	background-color: #019cbf;
+}
+
+.searchbtn{
+	color: whiteSmoke;
+	  background-color: #00aad2;
+	  font-family: 'Helvetica Neue';
+	  font-size: 15px;
+	  padding: 5px 5px;
+	  border: 0.5px solid;
+	  border-radius: 10px;
+	  margin-left: 25px;
+	  margin-top: 15px;
+	  text-decoration: none;
+	  text-align: center;
+	  display: block;
+	  width: 70px;
+		transition: background-color 500ms linear;
+		-webkit-transition: background-color 500ms linear;
+	  margin:0 auto;
+	  text-align: center;
+}
+.searchbtn:hover{
+	background-color: #2f8cb7;
+	color: whiteSmoke;
+	border-color: #2f8cb7;
+
+	overflow: hidden;
+	
+}
+.searchbtn:active{
+	background-color: #019cbf;
+}
+
+.searchbox{
+	margin:0 auto;
+	text-align: center;
+}
+
+input.searchbtn{
+	margin-top: 10px;
+}
+
+input.searchcontents{
+	width: 250px;
+	height: 30px;
+	font-size: 18px;
 }
